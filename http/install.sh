@@ -13,6 +13,10 @@ else
 fi
 export device
 
+curl "https://www.archlinux.org/mirrorlist/?country=RO&country=UA&country=GB&protocol=http&protocol=https&ip_version=4" --output mirrorlist
+sed -i 's/^#Server/Server/' mirrorlist
+cp mirrorlist /etc/pacman.d/mirrorlist
+
 memory_size_in_kilobytes=$(free | awk '/^Mem:/ { print $2 }')
 swap_size_in_kilobytes=$((memory_size_in_kilobytes * 2))
 sfdisk "$device" <<EOF
@@ -25,7 +29,7 @@ mkswap "${device}1"
 mkfs.ext4 -L "rootfs" "${device}2"
 mount "${device}2" /mnt
 
-pacstrap /mnt base linux grub openssh sudo polkit haveged
+pacstrap /mnt base linux grub openssh sudo polkit haveged bash-completion nano tar wget icu jq libsecret gnome-keyring noto-fonts base-devel ncdu xorg
 swapon "${device}1"
 genfstab -p /mnt >>/mnt/etc/fstab
 swapoff "${device}1"

@@ -8,7 +8,8 @@
     "cpus": "2",
     "headless": "true",
     "write_zeroes": "",
-    "boot_wait": "60s"
+    "boot_wait": "60s",
+    "idea_version": "2019.3"
   },
   "builders": [
     {
@@ -106,6 +107,9 @@
       "scripts": [
         "provision/postinstall.sh",
         "provision/virtualbox.sh",
+        "provision/git.sh",
+        "provision/idea.sh",
+        "provision/keyrings.sh",
         "provision/cleanup.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
@@ -118,6 +122,9 @@
       "scripts": [
         "provision/postinstall.sh",
         "provision/qemu.sh",
+        "provision/git.sh",
+        "provision/idea.sh",
+        "provision/keyrings.sh",
         "provision/cleanup.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
@@ -130,6 +137,9 @@
       "scripts": [
         "provision/postinstall.sh",
         "provision/vmware.sh",
+        "provision/git.sh",
+        "provision/idea.sh",
+        "provision/keyrings.sh",
         "provision/cleanup.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
@@ -143,6 +153,15 @@
         "provision/write_zeroes.sh"
       ],
       "execute_command": "if [ ! -z \"{{user `write_zeroes`}}\" ]; then echo 'vagrant'|sudo -S sh '{{.Path}}'; fi"
+    },
+    {
+      "type": "shell",
+      "inline": "mkdir -p ~/.local/share/keyrings"
+    },
+    {
+      "type": "file",
+      "source": "resources/keyrings",
+      "destination": "~/.local/share/"
     }
   ],
   "post-processors": [

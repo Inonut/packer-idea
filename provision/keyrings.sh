@@ -3,10 +3,11 @@
 set -e
 set -x
 
-sudo pacman -S --noconfirm git
+wget https://gitlab.com/GrantMoyer/lssecret/-/archive/master/lssecret-master.tar.gz
+tar -xf lssecret-master.tar.gz
+rm lssecret-master.tar.gz
+sudo make -C lssecret-master install
 
-cat <<EOF >>/tmp/custom-config/.gitconfig
-[user]
-	email = you@example.com
-	name = Vagrant Dev
-EOF
+# config keyrings
+#mkdir -p ~/.local/share/keyrings
+#cp -r /tmp/custom-config/keyrings ~/.local/share/

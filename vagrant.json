@@ -107,6 +107,7 @@
       "scripts": [
         "provision/postinstall.sh",
         "provision/virtualbox.sh",
+        "provision/git.sh",
         "provision/cleanup.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
@@ -119,6 +120,7 @@
       "scripts": [
         "provision/postinstall.sh",
         "provision/qemu.sh",
+        "provision/git.sh",
         "provision/cleanup.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
@@ -131,6 +133,7 @@
       "scripts": [
         "provision/postinstall.sh",
         "provision/vmware.sh",
+        "provision/git.sh",
         "provision/cleanup.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",

@@ -3,5 +3,10 @@
 set -e
 set -x
 
-sudo pacman -S --noconfirm linux-headers
-sudo pacman -S --noconfirm qemu-guest-agent
+sudo pacman -S --noconfirm git
+
+cat <<EOF >>~/.gitconfig
+[user]
+	email = you@example.com
+	name = Vagrant Dev
+EOF
