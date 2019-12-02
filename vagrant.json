@@ -1,15 +1,16 @@
 {
   "variables": {
-    "iso_url": "file:///srv/ftp/iso/latest/archlinux-{{isotime \"2006.01\"}}.01-x86_64.iso",
-    "iso_checksum_url": "file:///srv/ftp/iso/latest/sha1sums.txt",
+    "iso_url": "https://downloads.archlinux.de/iso/2019.12.01/archlinux-2019.12.01-x86_64.iso",
+    "iso_checksum_url": "https://downloads.archlinux.de/iso/2019.12.01/sha1sums.txt",
     "iso_checksum_type": "sha1",
     "disk_size": "20480",
     "memory": "1024",
     "cpus": "2",
     "headless": "true",
-    "vagrant_cloud_token": "PLACEHOLDER",
+    "vagrant_cloud_token": "YzYJNJGyQL2mAQ.atlasv1.MjOSYzmWzjzzKyYnorWs3qv87yP62aVQpkIe4Zjy8tKhcyMCQ4ZheCxTafsvZ2zs2DY",
     "write_zeroes": "",
-    "boot_wait": "60s"
+    "boot_wait": "60s",
+    "idea_version": "2019.3"
   },
   "builders": [
     {
@@ -104,23 +105,35 @@
   "provisioners": [
     {
       "type": "shell",
+      "environment_vars": [
+        "IDEA_VERSION={{user `idea_version`}}"
+      ],
       "scripts": [
         "provision/postinstall.sh",
         "provision/virtualbox.sh",
         "provision/git.sh",
+        "provision/java.sh",
+        "provision/idea.sh",
+        "provision/keyrings.sh",
         "provision/cleanup.sh"
       ],
-      "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
+      "execute_command": "echo 'vagrant'|sudo -S sh -c '{{ .Vars }} {{.Path}}'",
       "only": [
         "virtualbox-iso"
       ]
     },
     {
       "type": "shell",
+      "environment_vars": [
+        "IDEA_VERSION={{user `idea_version`}}"
+      ],
       "scripts": [
         "provision/postinstall.sh",
-        "provision/qemu.sh",
+        "provision/virtualbox.sh",
         "provision/git.sh",
+        "provision/java.sh",
+        "provision/idea.sh",
+        "provision/keyrings.sh",
         "provision/cleanup.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
@@ -130,10 +143,16 @@
     },
     {
       "type": "shell",
+      "environment_vars": [
+        "IDEA_VERSION={{user `idea_version`}}"
+      ],
       "scripts": [
         "provision/postinstall.sh",
-        "provision/vmware.sh",
+        "provision/virtualbox.sh",
         "provision/git.sh",
+        "provision/java.sh",
+        "provision/idea.sh",
+        "provision/keyrings.sh",
         "provision/cleanup.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
@@ -147,6 +166,15 @@
         "provision/write_zeroes.sh"
       ],
       "execute_command": "if [ ! -z \"{{user `write_zeroes`}}\" ]; then echo 'vagrant'|sudo -S sh '{{.Path}}'; fi"
+    },
+    {
+      "type": "shell",
+      "inline": "mkdir -p ~/.local/share/keyrings"
+    },
+    {
+      "type": "file",
+      "source": "resources/keyrings",
+      "destination": "~/.local/share/"
     }
   ],
   "post-processors": [
@@ -154,7 +182,7 @@
       {
         "type": "vagrant",
         "keep_input_artifact": false,
-        "output": "Arch-Linux-x86_64-{{ .Provider }}-{{isotime \"2006-01-02\"}}.box"
+        "output": "Idea-{{ .Provider }}-{{user `idea_version`}}.box"
       },
       {
         "type": "vagrant-cloud",
@@ -162,8 +190,8 @@
           "virtualbox-iso"
         ],
         "access_token": "{{user `vagrant_cloud_token`}}",
-        "box_tag": "archlinux/archlinux",
-        "version": "{{isotime \"2006.01.02\"}}"
+        "box_tag": "draducanu/idea",
+        "version": "{{user `idea_version`}}"
       },
       {
         "type": "vagrant-cloud",
@@ -171,8 +199,8 @@
           "qemu"
         ],
         "access_token": "{{user `vagrant_cloud_token`}}",
-        "box_tag": "archlinux/archlinux",
-        "version": "{{isotime \"2006.01.02\"}}"
+        "box_tag": "draducanu/idea",
+        "version": "{{user `idea_version`}}"
       },
       {
         "type": "vagrant-cloud",
@@ -180,8 +208,8 @@
           "vmware-iso"
         ],
         "access_token": "{{user `vagrant_cloud_token`}}",
-        "box_tag": "archlinux/archlinux",
-        "version": "{{isotime \"2006.01.02\"}}"
+        "box_tag": "draducanu/idea",
+        "version": "{{user `idea_version`}}"
       }
     ]
   ]

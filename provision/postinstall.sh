@@ -17,7 +17,7 @@ AllowAgentForwarding yes
 X11Forwarding yes
 X11UseLocalhost yes
 EOF
-cat <<EOF >>~/.xinitrc
+cat <<EOF >>.xinitrc
 /etc/X11/xinit/xinitrc.d/50-systemd-user.sh
 EOF
 sudo systemctl restart sshd
@@ -29,7 +29,7 @@ Include = /etc/pacman.d/mirrorlist
 EOF
 
 # custom commands
-cat <<EOF >>~/.bashrc
+cat <<EOF >>.bashrc
 alias ll="ls -al --color"
 
 export PS1="\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$ \[\033[00m\]"

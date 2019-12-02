@@ -104,25 +104,33 @@
   "provisioners": [
     {
       "type": "shell",
+      "environment_vars": [
+        "IDEA_VERSION={{user `idea_version`}}"
+      ],
       "scripts": [
         "provision/postinstall.sh",
         "provision/virtualbox.sh",
         "provision/git.sh",
+        "provision/java.sh",
         "provision/idea.sh",
         "provision/keyrings.sh",
         "provision/cleanup.sh"
       ],
-      "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
+      "execute_command": "echo 'vagrant'|sudo -S sh -c '{{ .Vars }} {{.Path}}'",
       "only": [
         "virtualbox-iso"
       ]
     },
     {
       "type": "shell",
+      "environment_vars": [
+        "IDEA_VERSION={{user `idea_version`}}"
+      ],
       "scripts": [
         "provision/postinstall.sh",
-        "provision/qemu.sh",
+        "provision/virtualbox.sh",
         "provision/git.sh",
+        "provision/java.sh",
         "provision/idea.sh",
         "provision/keyrings.sh",
         "provision/cleanup.sh"
@@ -134,10 +142,14 @@
     },
     {
       "type": "shell",
+      "environment_vars": [
+        "IDEA_VERSION={{user `idea_version`}}"
+      ],
       "scripts": [
         "provision/postinstall.sh",
-        "provision/vmware.sh",
+        "provision/virtualbox.sh",
         "provision/git.sh",
+        "provision/java.sh",
         "provision/idea.sh",
         "provision/keyrings.sh",
         "provision/cleanup.sh"
@@ -169,7 +181,7 @@
       {
         "type": "vagrant",
         "keep_input_artifact": false,
-        "output": "Arch-Linux-x86_64-{{ .Provider }}-{{isotime \"2006-01-02\"}}.box"
+        "output": "Idea-{{ .Provider }}-{{user `idea_version`}}.box"
       }
     ]
   ]
