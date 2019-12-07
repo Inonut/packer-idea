@@ -3,6 +3,8 @@
 set -e
 set -x
 
+sudo pacman -S --noconfirm libsecret gnome-keyring
+
 wget https://gitlab.com/GrantMoyer/lssecret/-/archive/master/lssecret-master.tar.gz
 tar -xf lssecret-master.tar.gz
 rm lssecret-master.tar.gz
