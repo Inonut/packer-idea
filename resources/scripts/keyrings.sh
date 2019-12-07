@@ -9,7 +9,8 @@ wget https://gitlab.com/GrantMoyer/lssecret/-/archive/master/lssecret-master.tar
 tar -xf lssecret-master.tar.gz
 rm lssecret-master.tar.gz
 sudo make -C lssecret-master install
+sudo rm -fr lssecret-master/
 
 # config keyrings
-#mkdir -p ~/.local/share/keyrings
-#cp -r /tmp/custom-config/keyrings ~/.local/share/
+mkdir -p ~/.local/share/keyrings
+cp -r ~/resources/keyrings ~/.local/share/

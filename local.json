@@ -110,10 +110,6 @@
       "scripts": [
         "provision/postinstall.sh",
         "provision/virtualbox.sh",
-        "provision/git.sh",
-        "provision/java.sh",
-        "provision/idea.sh",
-        "provision/keyrings.sh",
         "provision/cleanup.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S sh -c '{{ .Vars }} {{.Path}}'",
@@ -128,11 +124,7 @@
       ],
       "scripts": [
         "provision/postinstall.sh",
-        "provision/virtualbox.sh",
-        "provision/git.sh",
-        "provision/java.sh",
-        "provision/idea.sh",
-        "provision/keyrings.sh",
+        "provision/qemu.sh",
         "provision/cleanup.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
@@ -147,11 +139,7 @@
       ],
       "scripts": [
         "provision/postinstall.sh",
-        "provision/virtualbox.sh",
-        "provision/git.sh",
-        "provision/java.sh",
-        "provision/idea.sh",
-        "provision/keyrings.sh",
+        "provision/vmware.sh",
         "provision/cleanup.sh"
       ],
       "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'",
@@ -167,13 +155,13 @@
       "execute_command": "if [ ! -z \"{{user `write_zeroes`}}\" ]; then echo 'vagrant'|sudo -S sh '{{.Path}}'; fi"
     },
     {
-      "type": "shell",
-      "inline": "mkdir -p ~/.local/share/keyrings"
+      "type": "file",
+      "source": "resources",
+      "destination": "~/"
     },
     {
-      "type": "file",
-      "source": "resources/keyrings",
-      "destination": "~/.local/share/"
+      "type": "shell",
+      "inline": "chmod -R ugo+rwx ~/resources"
     }
   ],
   "post-processors": [
@@ -181,7 +169,8 @@
       {
         "type": "vagrant",
         "keep_input_artifact": false,
-        "output": "Idea-{{ .Provider }}-{{user `idea_version`}}.box"
+        "output": "Idea-{{ .Provider }}-{{user `idea_version`}}.box",
+        "vagrantfile_template": "./resources/Vagrantfile"
       }
     ]
   ]

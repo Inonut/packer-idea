@@ -27,6 +27,7 @@ cat <<EOF >>/etc/pacman.conf
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 EOF
+sudo pacman -Sy
 
 # custom commands
 cat <<EOF >>.bashrc
@@ -35,4 +36,7 @@ alias ll="ls -al --color"
 export PS1="\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$ \[\033[00m\]"
 EOF
 
-sudo pacman -Sy
+# set env
+cat <<EOF >>.bash_profile
+export IDEA_VERSION=$IDEA_VERSION
+EOF
