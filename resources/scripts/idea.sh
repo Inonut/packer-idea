@@ -20,7 +20,7 @@ if [ ! -d "$IDEA_SETTINGS" ]; then
     if [ ! -z "$1" ]; then
         git clone $1 GIT_IDEA_SETTINGS
         sudo mv ~/GIT_IDEA_SETTINGS/ ~/$IDEA_SETTINGS
-        sudo chmod -R ugo+rwx .$IDEA_SETTINGS
+#        sudo chmod -R ugo+rwx $IDEA_SETTINGS
     fi
 fi
 cd $IDEA_SETTINGS
