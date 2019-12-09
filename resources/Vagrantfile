@@ -1,8 +1,3 @@
-$run_script = <<SCRIPT
-  export DISPLAY=#{ENV['VAGRANT_DISPLAY']}
-  ~/idea.sh #{ENV['VAGRANT_GIT_IDEA_SETTINGS_REPO']}
-SCRIPT
-
 Vagrant.configure(2) do |config|
   config.vm.box = "draducanu/idea"
 
@@ -17,12 +12,9 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder "./", "/home/vagrant/IdeaProjects"
 
   config.vm.provision "shell", inline: "~/resources/install.sh", privileged: false
-
-  config.vm.provision "shell", inline: $run_script, privileged: false, run: 'always'
-
 end
 
-#linux: sudo vagrant ssh -c './idea.sh'
-#windows: vagrant up
+#linux: sudo vagrant ssh -c '~/idea.sh settings.git'
+#windows: sudo vagrant ssh -c 'export DISPLAY='aaaa:0.0' && ~/idea.sh settings.git'
 #####.\Xming.exe  -clipboard -multiwindow -ac
 
