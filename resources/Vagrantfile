@@ -10,6 +10,7 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.synced_folder "./", "/home/vagrant/IdeaProjects"
+  config.vm.network "public_network"
 
   config.vm.provision "shell", inline: "~/resources/install.sh", privileged: false
 end
